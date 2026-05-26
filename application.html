@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Application Form | Nouveau Royale Dance School</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --ivory: #f7f7f4;
+            --soft-ivory: #ffffff;
+            --black: #171717;
+            --muted: #676767;
+            --gold: #DBE139;
+            --lime: #DBE139;
+            --line: rgba(23, 23, 23, 0.1);
+            --glass: rgba(255, 255, 255, 0.86);
+            --shadow: 0 24px 70px rgba(23, 23, 23, 0.08);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            min-height: 100vh;
+            font-family: 'Inter', sans-serif;
+            color: var(--black);
+            background:
+                radial-gradient(circle at 10% 12%, rgba(219, 225, 57, 0.16), transparent 28%),
+                radial-gradient(circle at 92% 18%, rgba(219, 225, 57, 0.17), transparent 25%),
+                linear-gradient(135deg, var(--ivory), #f5efe2 55%, var(--soft-ivory));
+            line-height: 1.6;
+        }
+
+        body.menu-open {
+            overflow: hidden;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Cormorant Garamond', serif;
+            letter-spacing: 0;
+        }
+
+        a {
+            color: inherit;
+        }
+
+        nav {
+            position: sticky;
+            top: 0;
+            z-index: 20;
+            background: rgba(251, 248, 239, 0.88);
+            border-bottom: 1px solid rgba(20, 18, 15, 0.08);
+            backdrop-filter: blur(18px);
+        }
+
+        .nav-container {
+            max-width: 1180px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 2rem;
+        }
+
+        .logo {
+            font-family: 'Cormorant Garamond', serif;
+            color: var(--black);
+            font-size: 1.65rem;
+            font-weight: 700;
+            text-decoration: none;
+            white-space: nowrap;
+        }
+
+        .menu-toggle {
+            width: 46px;
+            height: 46px;
+            border: 1px solid rgba(20, 18, 15, 0.16);
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.58);
+            color: var(--black);
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap: 5px;
+            transition: transform 0.3s ease, border-color 0.3s ease, background 0.3s ease;
+        }
+
+        .menu-toggle:hover {
+            transform: translateY(-2px);
+            border-color: rgba(219, 225, 57, 0.78);
+            background: white;
+        }
+
+        .menu-toggle span {
+            width: 18px;
+            height: 2px;
+            border-radius: 999px;
+            background: currentColor;
+        }
+
+        .menu-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 2000;
+            background: rgba(20, 18, 15, 0.28);
+            backdrop-filter: blur(14px);
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        body.menu-open .menu-overlay {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .menu-panel {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            width: min(420px, calc(100vw - 2rem));
+            border: 1px solid rgba(219, 225, 57, 0.28);
+            border-radius: 26px;
+            background: rgba(255, 253, 248, 0.94);
+            box-shadow: 0 28px 70px rgba(20, 18, 15, 0.22);
+            padding: 1.25rem;
+            transform: translateY(-14px) scale(0.98);
+            transition: transform 0.3s ease;
+        }
+
+        body.menu-open .menu-panel {
+            transform: translateY(0) scale(1);
+        }
+
+        .menu-panel-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            color: var(--black);
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.45rem;
+            font-weight: 700;
+            margin-bottom: 1.25rem;
+        }
+
+        .menu-close {
+            width: 40px;
+            height: 40px;
+            border: 1px solid rgba(20, 18, 15, 0.14);
+            border-radius: 50%;
+            background: transparent;
+            color: var(--black);
+            cursor: pointer;
+            font-size: 1.4rem;
+            transition: transform 0.3s ease, background 0.3s ease;
+        }
+
+        .menu-close:hover {
+            transform: rotate(90deg);
+            background: rgba(219, 225, 57, 0.12);
+        }
+
+        .menu-links {
+            list-style: none;
+            display: grid;
+            gap: 0.45rem;
+        }
+
+        .menu-links a {
+            display: block;
+            color: var(--black);
+            text-decoration: none;
+            border-radius: 16px;
+            padding: 1rem 1.1rem;
+            font-size: 1.02rem;
+            font-weight: 800;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            transition: color 0.25s ease, background 0.25s ease, transform 0.25s ease;
+        }
+
+        .menu-links a:hover,
+        .menu-links a.active {
+            color: #171717;
+            background: rgba(219, 225, 57, 0.12);
+            transform: translateX(6px);
+        }
+
+        .page-shell {
+            max-width: 1180px;
+            margin: 0 auto;
+            padding: 4.5rem 2rem 5rem;
+        }
+
+        .hero {
+            text-align: center;
+            margin-bottom: 3rem;
+            animation: fadeUp 0.8s ease both;
+        }
+
+        .hero h1 {
+            font-size: clamp(3rem, 8vw, 6.2rem);
+            line-height: 0.95;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .hero p {
+            color: var(--muted);
+            font-size: clamp(1rem, 2.5vw, 1.25rem);
+        }
+
+        .application-card {
+            background: var(--glass);
+            border: 1px solid rgba(255, 255, 255, 0.74);
+            border-radius: 28px;
+            box-shadow: var(--shadow);
+            backdrop-filter: blur(22px);
+            padding: clamp(1.4rem, 4vw, 3rem);
+            animation: fadeUp 0.9s ease 0.12s both;
+        }
+
+        form {
+            display: grid;
+            gap: 2.5rem;
+        }
+
+        .form-section {
+            display: grid;
+            gap: 1.25rem;
+        }
+
+        .form-section h2 {
+            font-size: 2rem;
+            color: var(--black);
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid var(--line);
+        }
+
+        .field-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 1.1rem;
+        }
+
+        .field {
+            position: relative;
+        }
+
+        .field.full {
+            grid-column: 1 / -1;
+        }
+
+        .field input,
+        .field textarea {
+            width: 100%;
+            border: 1px solid var(--line);
+            border-radius: 16px;
+            background: rgba(255, 255, 255, 0.76);
+            color: var(--black);
+            font: inherit;
+            font-size: 1rem;
+            padding: 1.45rem 1rem 0.78rem;
+            outline: none;
+            transition: border-color 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+        }
+
+        .field textarea {
+            min-height: 112px;
+            resize: vertical;
+        }
+
+        .field label {
+            position: absolute;
+            left: 1rem;
+            top: 0.82rem;
+            color: var(--muted);
+            font-size: 0.76rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            pointer-events: none;
+        }
+
+        .field input:focus,
+        .field textarea:focus {
+            background: white;
+            border-color: rgba(219, 225, 57, 0.78);
+            box-shadow: 0 0 0 4px rgba(219, 225, 57, 0.14);
+        }
+
+        .choice-grid,
+        .class-grid {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .choice-grid {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .class-grid {
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+
+        .choice-card,
+        .class-card {
+            position: relative;
+        }
+
+        .choice-card input,
+        .class-card input {
+            position: absolute;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .choice-card span,
+        .class-card span {
+            display: block;
+            min-height: 100%;
+            border: 1px solid var(--line);
+            border-radius: 18px;
+            background: rgba(255, 255, 255, 0.68);
+            padding: 1.1rem;
+            cursor: pointer;
+            transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+        }
+
+        .choice-card strong,
+        .class-card strong {
+            display: block;
+            color: var(--black);
+            font-size: 1rem;
+            margin-bottom: 0.2rem;
+        }
+
+        .choice-card small,
+        .class-card small {
+            color: var(--muted);
+            font-weight: 600;
+        }
+
+        .choice-card input:checked + span,
+        .class-card input:checked + span,
+        .class-card.mandatory span {
+            border-color: rgba(219, 225, 57, 0.92);
+            background: linear-gradient(135deg, rgba(255,255,255,0.95), rgba(246, 239, 216, 0.9));
+            box-shadow: 0 16px 34px rgba(219, 225, 57, 0.18);
+            transform: translateY(-3px);
+        }
+
+        .choice-card input:focus-visible + span,
+        .class-card input:focus-visible + span {
+            outline: 3px solid rgba(219, 225, 57, 0.45);
+            outline-offset: 3px;
+        }
+
+        .mandatory-badge {
+            display: inline-flex;
+            margin-top: 0.7rem;
+            border-radius: 999px;
+            background: rgba(219, 225, 57, 0.24);
+            color: #171717;
+            padding: 0.25rem 0.65rem;
+            font-size: 0.72rem;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        .submit-area {
+            display: flex;
+            justify-content: center;
+            padding-top: 0.5rem;
+        }
+
+        .submit-button {
+            border: 0;
+            border-radius: 999px;
+            background: var(--black);
+            color: var(--soft-ivory);
+            cursor: pointer;
+            font: inherit;
+            font-weight: 800;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            padding: 1.1rem 2.6rem;
+            min-width: min(100%, 320px);
+            box-shadow: 0 18px 40px rgba(20, 18, 15, 0.22);
+            transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+        }
+
+        .submit-button:hover,
+        .submit-button:focus-visible {
+            background: #DBE139;
+            transform: translateY(-3px);
+            box-shadow: 0 24px 48px rgba(20, 18, 15, 0.28);
+        }
+
+        footer {
+            text-align: center;
+            color: var(--muted);
+            padding: 2rem;
+            border-top: 1px solid rgba(20, 18, 15, 0.08);
+            background: rgba(255, 253, 248, 0.58);
+        }
+
+        /* Light luxury theme */
+        body {
+            background: linear-gradient(180deg, #ffffff 0%, #f7f7f4 100%);
+        }
+
+        nav {
+            background: rgba(255,255,255,0.9);
+            border-bottom-color: rgba(23,23,23,0.08);
+            box-shadow: 0 12px 36px rgba(23,23,23,0.06);
+        }
+
+        .menu-toggle,
+        .menu-close {
+            background: #ffffff;
+            color: #171717;
+            border-color: rgba(23,23,23,0.12);
+            box-shadow: 0 10px 26px rgba(23,23,23,0.07);
+        }
+
+        .menu-toggle:hover,
+        .menu-close:hover {
+            border-color: #DBE139;
+            background: rgba(219,225,57,0.18);
+            box-shadow: 0 0 0 5px rgba(219,225,57,0.16);
+        }
+
+        .menu-overlay {
+            background: rgba(255,255,255,0.68);
+        }
+
+        .menu-panel {
+            background: rgba(255,255,255,0.96);
+            border-color: rgba(219,225,57,0.55);
+            box-shadow: 0 28px 70px rgba(23,23,23,0.13);
+        }
+
+        .menu-links a:hover,
+        .menu-links a.active {
+            color: #171717;
+            background: rgba(219,225,57,0.22);
+            box-shadow: inset 4px 0 0 #DBE139;
+        }
+
+        .application-card,
+        .choice-card span,
+        .class-card span {
+            background: rgba(255,255,255,0.9);
+            border-color: rgba(23,23,23,0.08);
+            box-shadow: 0 18px 50px rgba(23,23,23,0.07);
+        }
+
+        .field input,
+        .field textarea {
+            background: #ffffff;
+            border-color: rgba(23,23,23,0.1);
+        }
+
+        .field input:focus,
+        .field textarea:focus {
+            border-color: #DBE139;
+            box-shadow: 0 0 0 4px rgba(219,225,57,0.2);
+        }
+
+        .choice-card input:checked + span,
+        .class-card input:checked + span,
+        .class-card.mandatory span {
+            border-color: #DBE139;
+            background: #ffffff;
+            box-shadow: 0 18px 44px rgba(219,225,57,0.25);
+        }
+
+        .choice-card input:focus-visible + span,
+        .class-card input:focus-visible + span {
+            outline-color: rgba(219,225,57,0.48);
+        }
+
+        .mandatory-badge {
+            background: rgba(219,225,57,0.3);
+            color: #171717;
+        }
+
+        .submit-button {
+            background: #ffffff;
+            color: #171717;
+            border: 1px solid #DBE139;
+        }
+
+        .submit-button:hover,
+        .submit-button:focus-visible {
+            background: #DBE139;
+            color: #171717;
+            box-shadow: 0 22px 46px rgba(219,225,57,0.32);
+        }
+
+        footer {
+            background: #ffffff;
+            border-top-color: rgba(23,23,23,0.08);
+        }
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(18px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 900px) {
+            .class-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-container {
+                flex-direction: row;
+                gap: 1rem;
+            }
+
+            .page-shell {
+                padding: 3rem 1.2rem 4rem;
+            }
+
+            .field-grid,
+            .choice-grid,
+            .class-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.001ms !important;
+                scroll-behavior: auto !important;
+                transition-duration: 0.001ms !important;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="nav-container">
+            <a href="index.html" class="logo">Nouveau Royale</a>
+            <button class="menu-toggle" type="button" aria-label="Open navigation menu" aria-expanded="false" aria-controls="site-menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+
+    <div class="menu-overlay" id="site-menu" aria-hidden="true">
+        <div class="menu-panel" role="dialog" aria-modal="true" aria-label="Navigation menu">
+            <div class="menu-panel-header">
+                <span>Nouveau Royale</span>
+                <button class="menu-close" type="button" aria-label="Close navigation menu">&times;</button>
+            </div>
+            <ul class="menu-links">
+                <li><a href="index.html#home">Home</a></li>
+                <li><a href="gallery.html">Gallery</a></li>
+                <li><a href="application.html" class="active">Apply</a></li>
+                <li><a href="store.html">Store</a></li>
+                <li><a href="index.html#contact">Contact</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <main class="page-shell">
+        <header class="hero">
+            <h1>Application Form</h1>
+            <p>Begin Your Journey with Nouveau Royale Dance School</p>
+        </header>
+
+        <section class="application-card" aria-label="Nouveau Royale Dance School application form">
+            <form action="#" method="post">
+                <div class="form-section">
+                    <h2>Student Information</h2>
+                    <div class="field-grid">
+                        <div class="field">
+                            <input id="email" name="email" type="email" autocomplete="email" required>
+                            <label for="email">Email</label>
+                        </div>
+                        <div class="field">
+                            <input id="student-age" name="student-age" type="number" min="1" max="99" required>
+                            <label for="student-age">Age of Student</label>
+                        </div>
+                        <div class="field">
+                            <input id="first-name" name="first-name" type="text" autocomplete="given-name" required>
+                            <label for="first-name">First Name</label>
+                        </div>
+                        <div class="field">
+                            <input id="last-name" name="last-name" type="text" autocomplete="family-name" required>
+                            <label for="last-name">Last Name</label>
+                        </div>
+                        <div class="field">
+                            <input id="dob" name="dob" type="date" required>
+                            <label for="dob">Date of Birth</label>
+                        </div>
+                        <div class="field">
+                            <input id="address" name="address" type="text" autocomplete="street-address" required>
+                            <label for="address">Address</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h2>Membership Status</h2>
+                    <div class="choice-grid" role="radiogroup" aria-label="Membership status">
+                        <label class="choice-card">
+                            <input type="radio" name="membership-status" value="new-member" required>
+                            <span>
+                                <strong>New Member</strong>
+                                <small>First season with Nouveau Royale</small>
+                            </span>
+                        </label>
+                        <label class="choice-card">
+                            <input type="radio" name="membership-status" value="returning-member">
+                            <span>
+                                <strong>Returning Member</strong>
+                                <small>Continuing your dance journey</small>
+                            </span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h2>Parent/Guardian Information</h2>
+                    <div class="field-grid">
+                        <div class="field">
+                            <input id="guardian-name" name="guardian-name" type="text" autocomplete="name" required>
+                            <label for="guardian-name">Parent/Guardian Name</label>
+                        </div>
+                        <div class="field">
+                            <input id="relationship" name="relationship" type="text" required>
+                            <label for="relationship">Relationship to Student</label>
+                        </div>
+                        <div class="field full">
+                            <textarea id="contact-details" name="contact-details" required></textarea>
+                            <label for="contact-details">Contact Details</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h2>Emergency Contacts</h2>
+                    <div class="field-grid">
+                        <div class="field">
+                            <input id="emergency-one" name="emergency-one" type="text" required>
+                            <label for="emergency-one">Emergency Contact 1</label>
+                        </div>
+                        <div class="field">
+                            <input id="emergency-two" name="emergency-two" type="text" required>
+                            <label for="emergency-two">Emergency Contact 2</label>
+                        </div>
+                        <div class="field full">
+                            <textarea id="emergency-relationships" name="emergency-relationships" required></textarea>
+                            <label for="emergency-relationships">Relationship Information</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h2>Classes Registering For</h2>
+                    <div class="class-grid" aria-label="Class selection">
+                        <input type="hidden" name="classes" value="performance-ensemble">
+                        <label class="class-card mandatory">
+                            <input type="checkbox" name="classes" value="performance-ensemble" checked disabled>
+                            <span>
+                                <strong>Performance Ensemble</strong>
+                                <small>$100</small>
+                                <em class="mandatory-badge">Mandatory</em>
+                            </span>
+                        </label>
+                        <label class="class-card">
+                            <input type="checkbox" name="classes" value="ballet">
+                            <span>
+                                <strong>Ballet</strong>
+                                <small>$75</small>
+                            </span>
+                        </label>
+                        <label class="class-card">
+                            <input type="checkbox" name="classes" value="flexibility-contortion">
+                            <span>
+                                <strong>Flexibility and Contortion</strong>
+                                <small>$55</small>
+                            </span>
+                        </label>
+                        <label class="class-card">
+                            <input type="checkbox" name="classes" value="acrobatics-tumbling-tiny-tumblers">
+                            <span>
+                                <strong>Acrobatics/Tumbling/Tiny Tumblers</strong>
+                                <small>$85</small>
+                            </span>
+                        </label>
+                        <label class="class-card">
+                            <input type="checkbox" name="classes" value="aerial-hoop">
+                            <span>
+                                <strong>Aerial Hoop</strong>
+                                <small>$80</small>
+                            </span>
+                        </label>
+                        <label class="class-card">
+                            <input type="checkbox" name="classes" value="aerial-silk">
+                            <span>
+                                <strong>Aerial Silk</strong>
+                                <small>$80</small>
+                            </span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="submit-area">
+                    <button class="submit-button" type="submit">Submit Application</button>
+                </div>
+            </form>
+        </section>
+    </main>
+
+    <footer>
+        &copy; 2025 Nouveau Royale Dance School
+    </footer>
+
+    <script>
+        const menuToggle = document.querySelector('.menu-toggle');
+        const menuOverlay = document.querySelector('.menu-overlay');
+        const menuClose = document.querySelector('.menu-close');
+        const menuLinks = document.querySelectorAll('.menu-links a');
+
+        function setMenu(open) {
+            document.body.classList.toggle('menu-open', open);
+            menuToggle.setAttribute('aria-expanded', String(open));
+            menuOverlay.setAttribute('aria-hidden', String(!open));
+        }
+
+        menuToggle.addEventListener('click', () => setMenu(true));
+        menuClose.addEventListener('click', () => setMenu(false));
+        menuOverlay.addEventListener('click', (event) => {
+            if (event.target === menuOverlay) {
+                setMenu(false);
+            }
+        });
+        menuLinks.forEach((link) => link.addEventListener('click', () => setMenu(false)));
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape') {
+                setMenu(false);
+            }
+        });
+    </script>
+</body>
+</html>

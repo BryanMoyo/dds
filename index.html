@@ -1,0 +1,1219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nouveau Royale Dance School | Dance to Express, Not to Impress</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --royal-purple: #f4f4f1;
+            --deep-purple: #ffffff;
+            --gold: #DBE139;
+            --light-gold: #DBE139;
+            --cream: #f7f7f4;
+            --text-dark: #171717;
+            --text-light: #171717;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Lato', sans-serif;
+            color: var(--text-dark);
+            background-color: var(--cream);
+            line-height: 1.6;
+        }
+
+        body.menu-open {
+            overflow: hidden;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'Playfair Display', serif;
+        }
+
+        nav {
+            background: var(--royal-purple);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            color: var(--gold);
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .menu-toggle {
+            width: 46px;
+            height: 46px;
+            border: 1px solid rgba(219, 225, 57, 0.45);
+            border-radius: 50%;
+            background: rgba(255,255,255,0.06);
+            color: var(--gold);
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap: 5px;
+            transition: transform 0.3s, border-color 0.3s, background 0.3s;
+        }
+
+        .menu-toggle:hover {
+            transform: translateY(-2px);
+            border-color: var(--gold);
+            background: rgba(219, 225, 57, 0.12);
+        }
+
+        .menu-toggle span {
+            width: 18px;
+            height: 2px;
+            border-radius: 999px;
+            background: currentColor;
+        }
+
+        .menu-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 2000;
+            background: rgba(23, 23, 23, 0.56);
+            backdrop-filter: blur(10px);
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        body.menu-open .menu-overlay {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .menu-panel {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            width: min(420px, calc(100vw - 2rem));
+            border: 1px solid rgba(219, 225, 57, 0.35);
+            border-radius: 24px;
+            background: linear-gradient(145deg, rgba(23, 23, 23, 0.97), rgba(23, 23, 23, 0.98));
+            box-shadow: 0 28px 70px rgba(0,0,0,0.32);
+            padding: 1.25rem;
+            transform: translateY(-14px) scale(0.98);
+            transition: transform 0.3s ease;
+        }
+
+        body.menu-open .menu-panel {
+            transform: translateY(0) scale(1);
+        }
+
+        .menu-panel-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            color: var(--gold);
+            font-family: 'Playfair Display', serif;
+            font-size: 1.35rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .menu-close {
+            width: 40px;
+            height: 40px;
+            border: 1px solid rgba(219, 225, 57, 0.35);
+            border-radius: 50%;
+            background: transparent;
+            color: var(--gold);
+            cursor: pointer;
+            font-size: 1.4rem;
+            transition: transform 0.3s, background 0.3s;
+        }
+
+        .menu-close:hover {
+            transform: rotate(90deg);
+            background: rgba(219, 225, 57, 0.12);
+        }
+
+        .menu-links {
+            list-style: none;
+            display: grid;
+            gap: 0.45rem;
+        }
+
+        .menu-links a {
+            display: block;
+            color: var(--text-light);
+            text-decoration: none;
+            border-radius: 16px;
+            padding: 1rem 1.1rem;
+            font-size: 1.08rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            transition: color 0.25s, background 0.25s, transform 0.25s;
+        }
+
+        .menu-links a:hover,
+        .menu-links a.active {
+            color: var(--gold);
+            background: rgba(255,255,255,0.07);
+            transform: translateX(6px);
+        }
+
+        .banner-strip {
+            width: 100%;
+            background: white;
+            border-bottom: 1px solid rgba(23, 23, 23, 0.12);
+            overflow: hidden;
+        }
+
+        .banner-strip img {
+            display: block;
+            width: 100%;
+            height: clamp(72px, 12vw, 150px);
+            object-fit: cover;
+            object-position: center;
+        }
+
+        .hero {
+            background: linear-gradient(135deg, var(--deep-purple) 0%, var(--royal-purple) 100%);
+            color: var(--text-light);
+            padding: 6rem 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(219, 225, 57,0.1) 0%, transparent 70%);
+            animation: pulse 15s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            color: var(--gold);
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .hero .tagline {
+            font-size: 1.3rem;
+            font-style: italic;
+            color: var(--light-gold);
+            margin-bottom: 2rem;
+        }
+
+        .hero p {
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto 2rem;
+            opacity: 0.9;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: var(--gold);
+            color: var(--deep-purple);
+            padding: 1rem 2.5rem;
+            text-decoration: none;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            border-radius: 50px;
+            transition: all 0.3s;
+            border: 2px solid var(--gold);
+        }
+
+        .cta-button:hover {
+            background: transparent;
+            color: var(--gold);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+
+        section {
+            padding: 5rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            color: var(--royal-purple);
+            margin-bottom: 1rem;
+            position: relative;
+            display: inline-block;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 3px;
+            background: var(--gold);
+            margin: 0.5rem auto 0;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 3rem;
+            font-size: 1.1rem;
+        }
+
+        .about {
+            background: white;
+        }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .about-text h3 {
+            font-size: 1.8rem;
+            color: var(--royal-purple);
+            margin-bottom: 1rem;
+        }
+
+        .about-text p {
+            margin-bottom: 1.5rem;
+            font-size: 1.05rem;
+            color: #444;
+        }
+
+        .values-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .value-item {
+            background: var(--cream);
+            padding: 1.2rem;
+            border-left: 3px solid var(--gold);
+            border-radius: 0 8px 8px 0;
+        }
+
+        .value-item h4 {
+            color: var(--royal-purple);
+            font-size: 1.1rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .value-item p {
+            font-size: 0.9rem;
+            margin: 0;
+            color: #666;
+        }
+
+        .about-image {
+            min-height: 500px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+            background: var(--deep-purple);
+        }
+
+        .about-image img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            min-height: 500px;
+            object-fit: cover;
+        }
+
+        .classes {
+            background: var(--cream);
+        }
+
+        .classes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .class-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: 1px solid #eee;
+        }
+
+        .class-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.12);
+        }
+
+        .class-header {
+            background: var(--royal-purple);
+            color: white;
+            padding: 1.5rem;
+            position: relative;
+        }
+
+        .class-header h3 {
+            font-size: 1.4rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .price {
+            display: inline-block;
+            background: var(--gold);
+            color: var(--deep-purple);
+            padding: 0.3rem 1rem;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+
+        .class-body {
+            padding: 1.5rem;
+        }
+
+        .class-body p {
+            color: #555;
+            font-size: 0.95rem;
+        }
+
+        .class-card.featured .class-header {
+            background: linear-gradient(135deg, var(--royal-purple), var(--deep-purple));
+        }
+
+        .class-card.featured {
+            border: 2px solid var(--gold);
+        }
+
+        .founders {
+            background: linear-gradient(to bottom, var(--cream), white);
+        }
+
+        .founders-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 3rem;
+        }
+
+        .founder-card {
+            background: white;
+            border-radius: 12px;
+            padding: 2.5rem;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            border: 1px solid #f0f0f0;
+            transition: transform 0.3s;
+        }
+
+        .founder-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .founder-avatar {
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(135deg, var(--royal-purple), var(--deep-purple));
+            border-radius: 50%;
+            margin: 0 auto 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--gold);
+            font-size: 2.5rem;
+            font-family: 'Playfair Display', serif;
+            border: 3px solid var(--gold);
+        }
+
+        .founder-card h3 {
+            color: var(--royal-purple);
+            font-size: 1.4rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .founder-role {
+            color: var(--gold);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.85rem;
+            margin-bottom: 1rem;
+        }
+
+        .founder-card p {
+            color: #555;
+            font-size: 0.95rem;
+            line-height: 1.7;
+            text-align: left;
+        }
+
+        .certifications {
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid #eee;
+            font-size: 0.85rem;
+            color: #777;
+            text-align: left;
+        }
+
+        .certifications strong {
+            color: var(--royal-purple);
+        }
+
+        .founders-image-panel {
+            max-width: 960px;
+            margin: 0 auto 4rem;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 16px 36px rgba(0,0,0,0.12);
+            background: white;
+        }
+
+        .founders-image-panel img {
+            display: block;
+            width: 100%;
+            height: auto;
+            aspect-ratio: 16 / 9;
+            object-fit: cover;
+        }
+
+        .gallery {
+            background: white;
+        }
+
+        .gallery-category {
+            max-width: 1120px;
+            margin: 0 auto;
+        }
+
+        .gallery-category-title {
+            color: var(--royal-purple);
+            font-size: 2rem;
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .gallery-subsection + .gallery-subsection {
+            margin-top: 4rem;
+        }
+
+        .gallery-subtitle {
+            color: var(--royal-purple);
+            font-size: 1.55rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.65rem;
+            border-bottom: 1px solid rgba(219, 225, 57, 0.45);
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+            gap: 1.25rem;
+            align-items: start;
+        }
+
+        .gallery-item {
+            margin: 0;
+            background: var(--cream);
+            border: 1px solid rgba(23, 23, 23, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 8px 22px rgba(0,0,0,0.06);
+            transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+        }
+
+        .gallery-item:hover {
+            transform: translateY(-4px);
+            border-color: rgba(219, 225, 57, 0.6);
+            box-shadow: 0 16px 34px rgba(0,0,0,0.11);
+        }
+
+        .gallery-frame {
+            aspect-ratio: 4 / 5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, rgba(23, 23, 23, 0.08), rgba(219, 225, 57, 0.1));
+        }
+
+        .gallery-frame img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .gallery-item figcaption {
+            padding: 0.75rem 0.9rem;
+            color: #666;
+            font-size: 0.78rem;
+            letter-spacing: 0.04em;
+            text-align: center;
+            background: white;
+        }
+
+        .teachers {
+            background: white;
+        }
+
+        .teachers-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .teacher-card {
+            background: var(--cream);
+            padding: 1.5rem;
+            border-radius: 10px;
+            text-align: center;
+            border: 1px solid #eee;
+            transition: all 0.3s;
+        }
+
+        .teacher-card:hover {
+            background: var(--royal-purple);
+            color: white;
+            transform: translateY(-3px);
+        }
+
+        .teacher-card:hover h4 {
+            color: var(--gold);
+        }
+
+        .teacher-card:hover .teacher-classes {
+            color: #ccc;
+        }
+
+        .teacher-card h4 {
+            color: var(--royal-purple);
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .teacher-classes {
+            font-size: 0.85rem;
+            color: #666;
+            line-height: 1.4;
+        }
+
+        footer {
+            background: var(--deep-purple);
+            color: var(--text-light);
+            padding: 4rem 2rem 2rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-section h3 {
+            color: var(--gold);
+            margin-bottom: 1.5rem;
+            font-size: 1.3rem;
+        }
+
+        .footer-section p, .footer-section a {
+            color: #aaa;
+            text-decoration: none;
+            line-height: 1.8;
+            font-size: 0.95rem;
+        }
+
+        .footer-section a:hover {
+            color: var(--gold);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            color: #777;
+            font-size: 0.9rem;
+        }
+
+        /* Light luxury theme */
+        body {
+            background: linear-gradient(180deg, #ffffff 0%, #f7f7f4 100%);
+        }
+
+        nav {
+            background: rgba(255,255,255,0.9);
+            border-bottom: 1px solid rgba(23,23,23,0.08);
+            box-shadow: 0 12px 36px rgba(23,23,23,0.06);
+            backdrop-filter: blur(18px);
+        }
+
+        .logo,
+        .section-title,
+        .about-text h3,
+        .value-item h4,
+        .class-header h3,
+        .founder-card h3,
+        .teacher-card h4,
+        .footer-section h3 {
+            color: #171717;
+        }
+
+        .menu-toggle {
+            border-color: rgba(23,23,23,0.12);
+            background: #ffffff;
+            color: #171717;
+            box-shadow: 0 10px 26px rgba(23,23,23,0.07);
+        }
+
+        .menu-toggle:hover,
+        .menu-close:hover {
+            border-color: #DBE139;
+            background: rgba(219,225,57,0.18);
+            box-shadow: 0 0 0 5px rgba(219,225,57,0.16);
+        }
+
+        .menu-overlay {
+            background: rgba(255,255,255,0.68);
+        }
+
+        .menu-panel {
+            border-color: rgba(219,225,57,0.55);
+            background: rgba(255,255,255,0.96);
+            box-shadow: 0 28px 70px rgba(23,23,23,0.13);
+        }
+
+        .menu-panel-header,
+        .menu-close,
+        .menu-links a {
+            color: #171717;
+        }
+
+        .menu-close {
+            border-color: rgba(23,23,23,0.12);
+        }
+
+        .menu-links a:hover,
+        .menu-links a.active {
+            color: #171717;
+            background: rgba(219,225,57,0.22);
+            box-shadow: inset 4px 0 0 #DBE139;
+        }
+
+        .hero {
+            background: linear-gradient(135deg, #ffffff 0%, #f5f5f2 100%);
+            color: #171717;
+            border-bottom: 1px solid rgba(23,23,23,0.08);
+        }
+
+        .hero::before {
+            background: radial-gradient(circle, rgba(219,225,57,0.22) 0%, transparent 64%);
+        }
+
+        .hero h1,
+        .hero .tagline {
+            color: #171717;
+            text-shadow: none;
+        }
+
+        .cta-button,
+        .price {
+            background: #ffffff;
+            color: #171717;
+            border-color: #DBE139;
+            box-shadow: 0 10px 28px rgba(23,23,23,0.08);
+        }
+
+        .cta-button:hover {
+            background: #DBE139;
+            color: #171717;
+            box-shadow: 0 18px 36px rgba(219,225,57,0.32);
+        }
+
+        .section-title::after,
+        .value-item,
+        .founder-avatar,
+        .class-card.featured {
+            border-color: #DBE139;
+        }
+
+        .section-title::after {
+            background: #DBE139;
+        }
+
+        .about,
+        .events,
+        .teachers,
+        footer {
+            background: #ffffff;
+            color: #171717;
+        }
+
+        .classes,
+        .founders,
+        .value-item,
+        .teacher-card {
+            background: #f7f7f4;
+        }
+
+        .class-card,
+        .founder-card,
+        .gallery-item,
+        .about-image,
+        .founders-image-panel {
+            border: 1px solid rgba(23,23,23,0.08);
+            box-shadow: 0 18px 48px rgba(23,23,23,0.08);
+        }
+
+        .class-card:hover,
+        .founder-card:hover,
+        .teacher-card:hover {
+            box-shadow: 0 22px 58px rgba(219,225,57,0.22);
+            border-color: #DBE139;
+        }
+
+        .class-header,
+        .class-card.featured .class-header,
+        .founder-avatar {
+            background: #ffffff;
+            color: #171717;
+        }
+
+        .founder-avatar {
+            color: #171717;
+        }
+
+        .founder-role {
+            color: #171717;
+            text-decoration: underline;
+            text-decoration-color: #DBE139;
+            text-decoration-thickness: 3px;
+            text-underline-offset: 5px;
+        }
+
+        .teacher-card:hover {
+            background: #ffffff;
+            color: #171717;
+        }
+
+        .teacher-card:hover h4 {
+            color: #171717;
+        }
+
+        .teacher-card:hover .teacher-classes,
+        .footer-section p,
+        .footer-section a {
+            color: #676767;
+        }
+
+        .footer-section a:hover {
+            color: #171717;
+            text-decoration: underline;
+            text-decoration-color: #DBE139;
+        }
+
+        @media (max-width: 768px) {
+            .nav-container {
+                flex-direction: row;
+                gap: 1rem;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .about-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .about-image,
+            .about-image img {
+                min-height: 300px;
+            }
+
+            .values-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .founders-image-panel {
+                margin-bottom: 3rem;
+            }
+
+            .gallery-grid {
+                grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+                gap: 1rem;
+            }
+
+            section {
+                padding: 3rem 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .nav-container {
+                padding: 0 1.25rem;
+            }
+
+            .logo {
+                font-size: 1.25rem;
+            }
+
+            .banner-strip img {
+                height: 72px;
+            }
+
+            .hero {
+                padding: 4rem 1.5rem;
+            }
+
+            .hero h1 {
+                font-size: 2.15rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .classes-grid,
+            .founders-grid,
+            .gallery-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="nav-container">
+            <a href="#" class="logo">Nouveau Royale</a>
+            <button class="menu-toggle" type="button" aria-label="Open navigation menu" aria-expanded="false" aria-controls="site-menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+
+    <div class="menu-overlay" id="site-menu" aria-hidden="true">
+        <div class="menu-panel" role="dialog" aria-modal="true" aria-label="Navigation menu">
+            <div class="menu-panel-header">
+                <span>Nouveau Royale</span>
+                <button class="menu-close" type="button" aria-label="Close navigation menu">&times;</button>
+            </div>
+            <ul class="menu-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="gallery.html">Gallery</a></li>
+                <li><a href="application.html">Apply</a></li>
+                <li><a href="store.html">Store</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="banner-strip" aria-label="Single-line horizontal image banner placeholder">
+        <img src="banner_strip_image.jpg" alt="banner_strip_image.jpg">
+    </div>
+
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <h1>Nouveau Royale</h1>
+            <p class="tagline">"Dance to Express, Not to Impress"</p>
+            <p>Founded in 2015 by twin sisters Lakiesha and Natisha Claxton, Nouveau Royale began as a passionate dance group of nine members and has blossomed into a thriving dance school built on artistry, discipline, and love for the craft.</p>
+            <a href="#classes" class="cta-button">Explore Classes</a>
+        </div>
+    </section>
+
+    <section class="about" id="about">
+        <h2 class="section-title">Our Story</h2>
+        <p class="section-subtitle">A legacy of movement, passion, and community</p>
+        <div class="about-grid">
+            <div class="about-text">
+                <h3>More Than Movement</h3>
+                <p>At Nouveau Royale, dance is more than movement &mdash; it's expression, confidence, and community. Our mission is to inspire dancers of all ages and levels to discover the joy of dance while building lifelong skills.</p>
+                <p>What started as a small team with big dreams soon grew into a family of dancers, bonded by artistry, discipline, and love for the craft. Over the years, that passion has blossomed into the thriving dance school we are today, carrying forward the same energy and vision that sparked our journey.</p>
+
+                <div class="values-grid">
+                    <div class="value-item">
+                        <h4>Creativity</h4>
+                        <p>Encouraging self-expression through movement</p>
+                    </div>
+                    <div class="value-item">
+                        <h4>Excellence</h4>
+                        <p>Delivering high-quality training in every class</p>
+                    </div>
+                    <div class="value-item">
+                        <h4>Community</h4>
+                        <p>Staying true to our roots as a group that grew together</p>
+                    </div>
+                    <div class="value-item">
+                        <h4>Passion</h4>
+                        <p>Helping every dancer find their unique rhythm and shine</p>
+                    </div>
+                </div>
+            </div>
+            <div class="about-image" aria-label="Custom purple hero image placeholder">
+                <img src="hero_purple_image.jpg" alt="hero_purple_image.jpg">
+            </div>
+        </div>
+    </section>
+
+    <section class="classes" id="classes">
+        <h2 class="section-title">Our Classes</h2>
+        <p class="section-subtitle">Professional training for every age and skill level</p>
+        <div class="classes-grid">
+            <div class="class-card featured">
+                <div class="class-header">
+                    <h3>Performance Ensemble</h3>
+                    <span class="price">Flagship Program</span>
+                </div>
+                <div class="class-body">
+                    <p>The heart of our school. Students come together to build skills in teamwork, stage presence, and artistry while preparing for concerts and showcases. In addition to main studio performances, members volunteer for extra opportunities throughout the year.</p>
+                </div>
+            </div>
+
+            <div class="class-card">
+                <div class="class-header">
+                    <h3>Ballet</h3>
+                    <span class="price">$75/month</span>
+                </div>
+                <div class="class-body">
+                    <p>The foundation of all dance. Students will develop grace, posture, strength, and discipline while learning classical ballet technique. This class supports performance quality across every style.</p>
+                </div>
+            </div>
+
+            <div class="class-card">
+                <div class="class-header">
+                    <h3>Acrobatics / Tumbling</h3>
+                    <span class="price">$75/month</span>
+                </div>
+                <div class="class-body">
+                    <p>A structured progressive training pathway designed to develop strength, flexibility, agility, and performance artistry. Students begin with foundational skills such as rolls, handstands, and cartwheels, then progress safely into walkovers, aerials, and advanced tricks &mdash; all blended seamlessly with dance choreography.</p>
+                </div>
+            </div>
+
+            <div class="class-card">
+                <div class="class-header">
+                    <h3>Aerial Hoop</h3>
+                    <span class="price">$80/month</span>
+                </div>
+                <div class="class-body">
+                    <p>Students train on a suspended hoop, developing strength, balance, and coordination. They will explore aerial techniques and creative sequences while building confidence and artistry in the air.</p>
+                </div>
+            </div>
+
+            <div class="class-card">
+                <div class="class-header">
+                    <h3>Aerial Silks</h3>
+                    <span class="price">$80/month</span>
+                </div>
+                <div class="class-body">
+                    <p>Using fabric suspended from the ceiling, students learn climbs, wraps, drops, and poses. Aerial Silks helps students build strength, flexibility, and expressive artistry while exploring this exciting circus-inspired discipline.</p>
+                </div>
+            </div>
+
+            <div class="class-card">
+                <div class="class-header">
+                    <h3>Flexibility & Contortion</h3>
+                    <span class="price">$55/month</span>
+                </div>
+                <div class="class-body">
+                    <p>This class focuses on safely increasing flexibility, balance, and body control. Students will work on deep stretching techniques, controlled movements, and contortion skills in a structured environment.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="founders" id="founders">
+        <h2 class="section-title">Our Founders</h2>
+        <p class="section-subtitle">Visionaries behind the movement</p>
+
+        <div class="founders-image-panel" aria-label="Large founders section image placeholder">
+            <img src="founders_section_image.jpg" alt="founders_section_image.jpg">
+        </div>
+
+        <div class="founders-grid">
+            <div class="founder-card">
+                <div class="founder-avatar">LC</div>
+                <h3>Lakiesha Claxton</h3>
+                <div class="founder-role">Co-Founder, Creative & Artistic Director</div>
+                <p>Since 2015, Lakiesha has been instrumental in guiding the growth of Nouveau Royale, overseeing artistry and operations. She is certified in Ballet and Dance, and holds a certification in Business Management &mdash; a combination that allows her to merge creativity with organizational leadership.</p>
+                <p>As an active choreographer, she contributes original routines and works closely with dancers to bring performances to life. She specializes in choreography, performance planning, and artistic direction.</p>
+                <div class="certifications">
+                    <strong>Certifications:</strong> Ballet, Dance, Business Management
+                </div>
+            </div>
+
+            <div class="founder-card">
+                <div class="founder-avatar">NC</div>
+                <h3>Natisha Claxton</h3>
+                <div class="founder-role">Co-Founder, Creative & Artistic Director</div>
+                <p>Natisha leads the studio with passion, discipline, and a hands-on teaching approach. Since 2015, she has taken on multiple roles &mdash; owner, director, choreographer, and instructor &mdash; making her a cornerstone of the school's success.</p>
+                <p>She is celebrated for her innovative choreography and dynamic teaching style, which blend technical precision with creativity and expression. With her direct leadership in the studio, she embodies the school's motto, inspiring dancers to grow as both artists and individuals.</p>
+                <div class="certifications">
+                    <strong>Certifications:</strong> Acrobatics, Aerial Hoop, Aerial Silks, Ballet, Tap
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="teachers" id="teachers">
+        <h2 class="section-title">Teacher Apprentices</h2>
+        <p class="section-subtitle">The next generation of dance educators</p>
+        <div class="teachers-grid">
+            <div class="teacher-card">
+                <h4>Tyasia</h4>
+                <div class="teacher-classes">GEMS, Tiaras</div>
+            </div>
+            <div class="teacher-card">
+                <h4>Ashonte</h4>
+                <div class="teacher-classes">GEMS, Jr Tiaras</div>
+            </div>
+            <div class="teacher-card">
+                <h4>Tiya</h4>
+                <div class="teacher-classes">Gems, Tiaras 1, Tiaras 2</div>
+            </div>
+            <div class="teacher-card">
+                <h4>Gabrielle</h4>
+                <div class="teacher-classes">Jr Tiaras, Tiny Tumblers</div>
+            </div>
+            <div class="teacher-card">
+                <h4>Michaela</h4>
+                <div class="teacher-classes">Jr Tiaras, Tiny Tumblers</div>
+            </div>
+            <div class="teacher-card">
+                <h4>T'Nyrah</h4>
+                <div class="teacher-classes">Tiny Tumblers</div>
+            </div>
+            <div class="teacher-card">
+                <h4>Cheyenne</h4>
+                <div class="teacher-classes">Tiny Tumblers, Junior Hoop, Ballet TOTS</div>
+            </div>
+            <div class="teacher-card">
+                <h4>Liliana</h4>
+                <div class="teacher-classes">Tumbling 1 & Junior Hoop</div>
+            </div>
+            <div class="teacher-card">
+                <h4>M'Kyiah</h4>
+                <div class="teacher-classes">Tiny Tumblers</div>
+            </div>
+            <div class="teacher-card">
+                <h4>Azaria</h4>
+                <div class="teacher-classes">Tumbling 1</div>
+            </div>
+        </div>
+    </section>
+
+    <footer id="contact">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Nouveau Royale</h3>
+                <p>Dance to Express, Not to Impress.<br><br>
+                Inspiring dancers of all ages and levels to discover the joy of dance while building lifelong skills.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Contact Us</h3>
+                <p>
+                    <strong>Address:</strong><br>
+                    Linton & Pauletta Wheatley Building<br>
+                    Unit 400 G Johnsons Ghut<br>
+                    Tortola, BVI VG1110<br><br>
+                    <strong>Phone:</strong><br>
+                    <a href="tel:2843429791">284-342-9791</a>
+                </p>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <p>
+                    <a href="#home">Home</a><br>
+                    <a href="#about">About</a><br>
+                    <a href="#classes">Classes</a><br>
+                    <a href="#founders">Founders</a><br>
+                    <a href="gallery.html">Gallery</a><br>
+                    <a href="application.html">Apply</a><br>
+                    <a href="store.html">Store</a><br>
+                    <a href="#teachers">Team</a>
+                </p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Nouveau Royale Dance School. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        const menuToggle = document.querySelector('.menu-toggle');
+        const menuOverlay = document.querySelector('.menu-overlay');
+        const menuClose = document.querySelector('.menu-close');
+        const menuLinks = document.querySelectorAll('.menu-links a');
+
+        function setMenu(open) {
+            document.body.classList.toggle('menu-open', open);
+            menuToggle.setAttribute('aria-expanded', String(open));
+            menuOverlay.setAttribute('aria-hidden', String(!open));
+        }
+
+        menuToggle.addEventListener('click', () => setMenu(true));
+        menuClose.addEventListener('click', () => setMenu(false));
+        menuOverlay.addEventListener('click', (event) => {
+            if (event.target === menuOverlay) {
+                setMenu(false);
+            }
+        });
+        menuLinks.forEach((link) => link.addEventListener('click', () => setMenu(false)));
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape') {
+                setMenu(false);
+            }
+        });
+    </script>
+</body>
+</html>
