@@ -192,9 +192,9 @@
         .banner-strip img {
             display: block;
             width: 100%;
-            height: clamp(72px, 12vw, 150px);
-            object-fit: cover;
-            object-position: center;
+            height: auto;
+            max-height: 200px;
+            object-fit: contain;
         }
 
         .hero {
@@ -519,8 +519,7 @@
             display: block;
             width: 100%;
             height: auto;
-            aspect-ratio: 16 / 9;
-            object-fit: cover;
+            object-fit: contain;
         }
 
         .gallery {
